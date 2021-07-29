@@ -14,29 +14,29 @@ class MinRooms(Rule.Rule):
 
         result = "Optimal room distribution:"
         # put room ids and their capacity in dictionary
-        room_capacities = []
+        room_capacities = dict()
         for room in rooms:
             room_capacities[room.id] = room.workplace_reservations
 
         num_employees = building.total_employees_in
 
-        # sort rooms by descending capacity
+        # sort room's id by descending capacity
         sorted_ids = sorted(room_capacities,
                             key=room_capacities.__getitem__,
                             reverse=True)
 
-        sorted_caps = [value for (key, value)
-                       in sorted(room_capacities, key=room_capacities.__getitem__,
-                                 reverse=True)]
+
         # distribute employees to the biggest  rooms first
         i = 0
         k = 0
         while i < num_employees:
-            if (num_employees - i) <= sorted_caps[k]:
+            if (num_employees - i) <= room_capacities[sorted_ids[k]]:
                 i += (num_employees - i)
                 result += str((num_employees - i)) + "People in room:" + str(sorted_ids[k]) + ","
             else:
-                i += sorted_caps[k]
-                result += str(sorted_caps[k]) + "People in room:" + str(sorted_ids[k]) + ","
+                i += room_capacities[sorted_ids[k]]
+                result += str(room_capacities[sorted_ids[k]]) + "People in room:" + str(sorted_ids[k]) + ","
+
+            k += 1
 
         return result
