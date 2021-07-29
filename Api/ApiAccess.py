@@ -12,12 +12,16 @@ from Api.SampleMetaData import SampleMetaData
 class ApiAccess:
     api_url = "https://rvj6rnbpxj.execute-api.eu-central-1.amazonaws.com/prod/"
 
+    # Dirty fix to keep up with Server-Time
+    server_time = time.time()
+
     @staticmethod
     def request_live_data(interval=1):
         response = requests.get(ApiAccess.api_url + "live-data", params={'interval': interval})
         ApiAccess.__ensure_success_status(response)
         json = response.json()
         sample_data = SampleMetaData(json)
+        ApiAccess.server_time = sample_data.sampling_stop_time # Do not look at this
         building_data = BuildingData(sample_data, json["building"])
         rooms = []
         for room in json["rooms"]:
