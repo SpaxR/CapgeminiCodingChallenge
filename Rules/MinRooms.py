@@ -29,9 +29,9 @@ class MinRooms(Rule.Rule):
         # distribute employees to the biggest  rooms first
         i = 0
         k = 0
-        while i < num_employees:
+        while i < num_employees and k < len(sorted_ids):
             if (num_employees - i) <= room_capacities[sorted_ids[k]]:
-                result += str((num_employees - i)) + "People in room:" + str(sorted_ids[k]) + ","+ "     "
+                result += str((num_employees - i)) + "People in room:" + str(sorted_ids[k]) + ","+ "  "
                 i += (num_employees - i)
             else:
                 i += room_capacities[sorted_ids[k]]
