@@ -35,7 +35,7 @@ class OpenWindowsNecessary(Rule.Rule):
                 # gets data for the room in ???
                 data_room = ApiAccess.request_specific_room_data(room.id, ApiAccess.server_time - self.interval,
                                                                  ApiAccess.server_time, self.freq)
-
+                print("Request historical data..")
                 if self.length_of_windows_opened(data_room) > self.cap:
                     return False
         print("YAY! Nur Stoßgelüftet")
