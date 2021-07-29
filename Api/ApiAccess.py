@@ -1,3 +1,5 @@
+import time
+
 import requests
 from requests import Response
 
@@ -8,14 +10,13 @@ from Api.SampleMetaData import SampleMetaData
 
 
 class ApiAccess:
+
     api_url = "https://rvj6rnbpxj.execute-api.eu-central-1.amazonaws.com/prod/"
 
-    def __init__(self):
-        pass
-
-    def request_live_data(self, interval=1):
-        response = requests.get(self.api_url + "live-data", params={'interval': interval})
-        self.__ensure_success_status(response)
+    @staticmethod
+    def request_live_data(interval=1):
+        response = requests.get(ApiAccess.api_url + "live-data", params={'interval': interval})
+        ApiAccess.__ensure_success_status(response)
         json = response.json()
         sample_data = SampleMetaData(json)
         building_data = BuildingData(sample_data, json["building"])
@@ -24,14 +25,15 @@ class ApiAccess:
             rooms.append(RoomData(sample_data, room))
         return LiveData(sample_data, building_data, rooms)
 
-    def request_building_data(self, begin_timestamp, end_timestamp, interval):
-        self.__ensure_timestamps_valid(begin_timestamp, end_timestamp, interval)
-        response = requests.get(self.api_url + "building", params={
+    @staticmethod
+    def request_building_data(begin_timestamp, end_timestamp, interval):
+        ApiAccess.__ensure_timestamps_valid(begin_timestamp, end_timestamp, interval)
+        response = requests.get(ApiAccess.api_url + "building", params={
             'begin-timestamp': begin_timestamp,
             'end-timestamp': end_timestamp,
             'interval': interval
         })
-        self.__ensure_success_status(response)
+        ApiAccess.__ensure_success_status(response)
         json = response.json()
         results = []
         for dataset in json:
@@ -39,6 +41,7 @@ class ApiAccess:
             results.append(BuildingData(sample_data, dataset))
         return results
 
+    @staticmethod
     def request_rooms_data(self, begin_timestamp, end_timestamp, interval):
         self.__ensure_timestamps_valid(begin_timestamp, end_timestamp, interval)
         response = requests.get(self.api_url + "room", params={
@@ -57,9 +60,10 @@ class ApiAccess:
             results.append(rooms)
         return results
 
-    def request_specific_room_data(self, room_id, begin_timestamp, end_timestamp, interval):
+    @staticmethod
+    def request_specific_room_data(room_id, begin_timestamp, end_timestamp, interval):
         # Note: definitely not the best approach, but time is short
-        data = self.request_rooms_data(begin_timestamp, end_timestamp, interval)
+        data = ApiAccess.request_rooms_data(begin_timestamp, end_timestamp, interval)
         result = []
         for dataset in data:
             for room in dataset:
@@ -67,11 +71,13 @@ class ApiAccess:
                     result.append(room)
         return result
 
-    def __ensure_success_status(self, response: Response):
+    @staticmethod
+    def __ensure_success_status(response: Response):
         if response.status_code is not 200:
             raise Exception("Failed to call API")
 
-    def __ensure_timestamps_valid(self, begin, end, interval):
+    @staticmethod
+    def __ensure_timestamps_valid(begin, end, interval):
         # 1 Interval = 60 seconds
         if end <= begin:
             raise ValueError('End-Timestamp is before Begin-Timestamp')

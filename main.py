@@ -1,32 +1,33 @@
 import os
+import time
 
 from Api.ApiAccess import ApiAccess
 from Rules.MinRooms import MinRooms
+# from Rules.OpenWindowsNecessary import OpenWindowsNecessary
 from Rules.Windows import Windows
+
 
 def output_to_console(lines):
     if os.name in ('nt', 'dos'):
         os.system('cls')
     else:
         os.system('clear')
-
     for line in lines:
         print(line)
+    pass
 
-
-
-api = ApiAccess()
 
 ruleset = [
     MinRooms(),
-    Windows()
+    Windows(),
+    # OpenWindowsNecessary()
 ]
 
 while True:
     suggested_optimizations = []
 
     # Load Data
-    data = api.request_live_data(1)
+    data = ApiAccess.request_live_data(1)
 
     # Execute all Rules
     for rule in ruleset:
@@ -38,5 +39,6 @@ while True:
     f = open("suggestions.txt", "w")
     f.writelines(suggested_optimizations)
     f.close()
+    time.sleep(5) # Refresh every 5 seconds
     pass
 
