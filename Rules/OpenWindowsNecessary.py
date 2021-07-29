@@ -1,4 +1,4 @@
-import  Rule
+import Rule
 import Api.RoomSensor
 import Api.RoomData
 import Api.BuildingData

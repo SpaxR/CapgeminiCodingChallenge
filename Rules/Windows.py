@@ -14,7 +14,7 @@ class Windows(Rule):
 
             if (room.sensors.windowsOpen
                 and (room.sensors.air_conditioning_running or
-                     room.sensors.heater_running)):
+                     room.sensors.heater_running)) or (room.sensors.air_conditioning_running and room.sensors.heater_running):
                 return False
 
         return True
