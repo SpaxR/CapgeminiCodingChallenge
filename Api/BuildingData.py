@@ -12,10 +12,10 @@ class BuildingData:
 
     def __init__(self, meta_data: SampleMetaData, json):
         self.sample_meta_data = meta_data
-        self.total_power_consumption = json['totalPowerConsumption']
-        self.power_consumption_data_center = json['powerConsumptionDataCenter']
-        self.solar_power_output = json['solarPowerOutput']
-        self.outdoor_temperature = json['outdoorTemperature']
-        self.water_consumption = json['waterConsumption']
-        self.total_employees_in = json['totalEmployeesIn']
+        self.total_power_consumption = json["totalPowerConsumption"]
+        self.power_consumption_data_center = json["powerConsumptionDataCenter"]
+        self.solar_power_output = json["solarPowerOutput"]
+        self.outdoor_temperature = json["outdoorTemperature"]
+        self.water_consumption = json["waterConsumption"]
+        self.total_employees_in = json["totalEmployeesIn"]
         pass
