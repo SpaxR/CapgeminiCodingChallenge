@@ -57,6 +57,16 @@ class ApiAccess:
             results.append(rooms)
         return results
 
+    def request_specific_room_data(self, room_id, begin_timestamp, end_timestamp, interval):
+        # Note: definitely not the best approach, but time is short
+        data = self.request_rooms_data(begin_timestamp, end_timestamp, interval)
+        result = []
+        for dataset in data:
+            for room in dataset:
+                if room.id is room_id:
+                    result.append(room)
+        return result
+
     def __ensure_success_status(self, response: Response):
         if response.status_code is not 200:
             raise Exception("Failed to call API")
