@@ -1,4 +1,7 @@
 import Rule
+import Api.RoomSensor
+import Api.RoomData
+import Api.BuildingData
 
 
 # check that the least number of rooms is used
@@ -9,37 +12,35 @@ class MinRooms(Rule):
     def state_optimal(self, rooms, building):
         return False
 
-
-
     # override
     def path_to_opt(self, rooms, building):
-        result = "Optimal room distribution:"
-        # put roomids and their capacity in dictionary
-        roomCapacities = []
-        for room in rooms:
-            roomCapacities[room.id]= room.workplaceReservations
 
-        num_employees = building.totalEmployeesIn
+        result = "Optimal room distribution:"
+        # put room ids and their capacity in dictionary
+        room_capacities = []
+        for room in rooms:
+            room_capacities[room.id] = room.workplace_reservations
+
+        num_employees = building.total_employees_in
 
         # sort rooms by descending capacity
-        sorted_ids = sorted(roomCapacities,
-                            key=roomCapacities.__getitem__,
+        sorted_ids = sorted(room_capacities,
+                            key=room_capacities.__getitem__,
                             reverse=True)
 
         sorted_caps = [value for (key, value)
-                       in sorted(roomCapacities.__getitem__,
+                       in sorted(room_capacities, key=room_capacities.__getitem__,
                                  reverse=True)]
         # distribute employees to the biggest  rooms first
         i = 0
         k = 0
-        while(i < num_employees):
-            if (num_employees- i) <= sorted_caps[k]
-                i += (num_employees- i):
-                result += (num_employees- i) + "People in room:" + sorted_ids[k] + ","
+        while i < num_employees:
+            if (num_employees - i) <= sorted_caps[k]:
+                i += (num_employees - i)
+                result += str((num_employees - i)) + "People in room:" + str(sorted_ids[k]) + ","
             else:
                 i += sorted_caps[k]
-                result += sorted_caps[k] + "People in room:" + sorted_ids[k] + ","
-
+                result += str(sorted_caps[k]) + "People in room:" + str(sorted_ids[k]) + ","
 
         return result
 

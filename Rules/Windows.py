@@ -1,7 +1,10 @@
 import  Rule
+import Api.RoomSensor
+import Api.RoomData
+import Api.BuildingData
 
 # Do not open windows while heating or air conditioning,
-# or prevent heating and airconditioning at the same time
+# or prevent heating and air conditioning at the same time
 class Windows(Rule):
 
     # override
@@ -9,9 +12,9 @@ class Windows(Rule):
 
         for room in rooms:
 
-            if room.sensors.windowsOpen
-                and (room.sensors.airConditioningRunning or
-                room.sensors.heaterRunning):
+            if (room.sensors.windowsOpen
+                and (room.sensors.air_conditioning_running or
+                     room.sensors.heater_running)):
                 return False
 
         return True
@@ -20,19 +23,15 @@ class Windows(Rule):
     def path_to_opt(self, rooms, building):
         result = ""
         for room in rooms:
-            if room.sensors.windowsOpen
-                and room.sensors.airConditioningRunning and
-                room.sensors.heaterRunning:
+            if room.sensors.windows_open and room.sensors.air_conditioning_running and room.sensors.heater_running:
 
-                result += "Turn off 2 of the following in room:"
-                + room.id + "Heater, airconditioning or windows!"
+                result += "Turn off 2 of the following in room:" + str(room.id) + "Heater, air conditioning or windows!"
 
-            elif room.sensors.widowsOpen and room.sensors.heaterRunning:
-                result += "Turn off either the heater or close the windows in room:" + room.id
-            elif room.sensors.widowsOpen and room.sensors.airConditioningRunning:
-                result += "Turn off either the air conditioning or close the windows in room:" + room.id
-            elif room.sensors.airConditioningRunning and
-                room.sensors.heaterRunning:
-                result += "Turn off either the air conditioning or the heater in room:" + room.id
+            elif room.sensors.windows_open and room.sensors.heater_running:
+                result += "Turn off either the heater or close the windows in room:" + str(room.id)
+            elif room.sensors.widows_open and room.sensors.air_conditioning_running:
+                result += "Turn off either the air conditioning or close the windows in room:" + str(room.id)
+            elif room.sensors.air_conditioning_running and room.sensors.heater_running:
+                result += "Turn off either the air conditioning or the heater in room:" + str(room.id)
 
         return result
