@@ -1,20 +1,42 @@
-# This is a sample Python script.
+import os
 
-# Press Umschalt+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from Api.ApiAccess import ApiAccess
+from Rules.MinRooms import MinRooms
+from Rules.Windows import Windows
+
+def output_to_console(lines):
+    if os.name in ('nt', 'dos'):
+        os.system('cls')
+    else:
+        os.system('clear')
+
+    for line in lines:
+        print(line)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Strg+F8 to toggle the breakpoint.
 
+api = ApiAccess()
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-    print('Hallo')
-    print('Hallo branch')
+ruleset = [
+    MinRooms(),
+    Windows()
+]
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+while True:
+    suggested_optimizations = []
 
-print('Hello, World!123')
+    # Load Data
+    data = api.request_live_data(1)
+
+    # Execute all Rules
+    for rule in ruleset:
+        if not rule.state_optimal(data.rooms, data.building_data):
+            suggested_optimizations.append(rule.path_to_opt(data.rooms, data.building_data))
+
+    # Output Data
+    output_to_console(suggested_optimizations)
+    f = open("suggestions.txt", "w")
+    f.writelines(suggested_optimizations)
+    f.close()
+    pass
+
