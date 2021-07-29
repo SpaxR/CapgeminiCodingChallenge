@@ -1,11 +1,8 @@
-import Rule
-import Api.RoomSensor
-import Api.RoomData
-import Api.BuildingData
-
-
 # check that the least number of rooms is used
-class MinRooms(Rule):
+import Rule
+
+
+class MinRooms(Rule.Rule):
 
     # override, as it is impossible to be sure where people are
     # assume it is always suboptimal
@@ -43,5 +40,3 @@ class MinRooms(Rule):
                 result += str(sorted_caps[k]) + "People in room:" + str(sorted_ids[k]) + ","
 
         return result
-
-

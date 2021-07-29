@@ -10,7 +10,6 @@ from Api.SampleMetaData import SampleMetaData
 
 
 class ApiAccess:
-
     api_url = "https://rvj6rnbpxj.execute-api.eu-central-1.amazonaws.com/prod/"
 
     @staticmethod

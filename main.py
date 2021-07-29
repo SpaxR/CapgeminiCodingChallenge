@@ -2,8 +2,8 @@ import os
 import time
 
 from Api.ApiAccess import ApiAccess
-from Rules.MinRooms import MinRooms
 # from Rules.OpenWindowsNecessary import OpenWindowsNecessary
+from Rules.MinRooms import MinRooms
 from Rules.Windows import Windows
 
 

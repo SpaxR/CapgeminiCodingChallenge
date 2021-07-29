@@ -5,7 +5,7 @@ import Api.BuildingData
 
 # Do not open windows while heating or air conditioning,
 # or prevent heating and air conditioning at the same time
-class Windows(Rule):
+class Windows(Rule.Rule):
 
     # override
     def state_optimal(self, rooms, building):
