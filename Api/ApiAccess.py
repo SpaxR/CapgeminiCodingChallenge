@@ -25,6 +25,7 @@ class ApiAccess:
         return LiveData(sample_data, building_data, rooms)
 
     def request_building_data(self, begin_timestamp, end_timestamp, interval):
+        self.__ensure_timestamps_valid(begin_timestamp, end_timestamp, interval)
         response = requests.get(self.api_url + "building", params={
             'begin-timestamp': begin_timestamp,
             'end-timestamp': end_timestamp,
@@ -32,10 +33,14 @@ class ApiAccess:
         })
         self.__ensure_success_status(response)
         json = response.json()
-        sample_data = SampleMetaData(json)
-        return BuildingData(sample_data, json)
+        results = []
+        for dataset in json:
+            sample_data = SampleMetaData(json)
+            results.append(BuildingData(sample_data, dataset))
+        return results
 
     def request_rooms_data(self, begin_timestamp, end_timestamp, interval):
+        self.__ensure_timestamps_valid(begin_timestamp, end_timestamp, interval)
         response = requests.get(self.api_url + "room", params={
             'begin-timestamp': begin_timestamp,
             'end-timestamp': end_timestamp,
@@ -43,12 +48,24 @@ class ApiAccess:
         })
         self.__ensure_success_status(response)
         json = response.json()
-        sample_data = SampleMetaData(json)
-        rooms = []
-        for room in json["rooms"]:
-            rooms.append(RoomData(sample_data, room))
-        return rooms
+        results = []
+        for dataset in json:
+            sample_data = SampleMetaData(json)
+            rooms = []
+            for room in dataset["rooms"]:
+                rooms.append(RoomData(sample_data, room))
+            results.append(rooms)
+        return results
 
     def __ensure_success_status(self, response: Response):
         if response.status_code is not 200:
             raise Exception("Failed to call API")
+
+    def __ensure_timestamps_valid(self, begin, end, interval):
+        # 1 Interval = 60 seconds
+        if end <= begin:
+            raise ValueError('End-Timestamp is before Begin-Timestamp')
+        if (end - begin) / 60 < interval:
+            raise ValueError('Time between timestamp is shorter than Interval')
+
+        pass
