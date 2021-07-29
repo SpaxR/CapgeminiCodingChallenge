@@ -55,7 +55,7 @@ class OpenWindowsNecessary(Rule):
                 data_room = get_data_api(room.id, self.interval, self.freq)
 
                 if self.length_of_windows_opened(data_room) > 20:
-                    result += "Close the windows in room: " + str(room.id)
+                    result += "Close the windows in room: " + str(room.id) + "     "
 
         return result
 

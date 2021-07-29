@@ -25,13 +25,13 @@ class Windows(Rule.Rule):
         for room in rooms:
             if room.sensors.windows_open and room.sensors.air_conditioning_running and room.sensors.heater_running:
 
-                result += "Turn off 2 of the following in room:" + str(room.id) + "Heater, air conditioning or windows!"
+                result += "Turn off 2 of the following in room:" + str(room.id) + "Heater, air conditioning or windows!,   "
 
             elif room.sensors.windows_open and room.sensors.heater_running:
-                result += "Turn off either the heater or close the windows in room:" + str(room.id)
+                result += "Turn off either the heater or close the windows in room:" + str(room.id)+ ",     "
             elif room.sensors.windows_open and room.sensors.air_conditioning_running:
-                result += "Turn off either the air conditioning or close the windows in room:" + str(room.id)
+                result += "Turn off either the air conditioning or close the windows in room:" + str(room.id)+ ",    "
             elif room.sensors.air_conditioning_running and room.sensors.heater_running:
-                result += "Turn off either the air conditioning or the heater in room:" + str(room.id)
+                result += "Turn off either the air conditioning or the heater in room:" + str(room.id)+ ",     "
 
         return result
