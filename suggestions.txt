@@ -1,1 +1,1 @@
-No employees in the office to allocate!
+Optimal room distribution:4People in room:B, 4People in room:D, 4People in room:G, 4People in room:J, 4People in room:L, 4People in room:N, 4People in room:P, 4People in room:Q, 4People in room:R, 4People in room:S, 4People in room:T, 4People in room:U, 4People in room:W, 3People in room:A, 

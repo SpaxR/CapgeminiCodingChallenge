@@ -16,7 +16,7 @@ class Windows(Rule.Rule):
                 and (room.sensors.air_conditioning_running or
                      room.sensors.heater_running)) or (room.sensors.air_conditioning_running and room.sensors.heater_running):
                 return False
-
+        print("No two of a turned on heater and air conditioning or opened windows at a time! Good job!")
         return True
 
     # override
