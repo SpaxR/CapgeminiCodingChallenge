@@ -1,4 +1,5 @@
 import Rule
+from Api.ApiAccess import ApiAccess
 import Api.RoomSensor
 import Api.RoomData
 import Api.BuildingData
@@ -36,7 +37,7 @@ class OpenWindowsNecessary(Rule):
         for room in rooms:
             if room.sensors.windows_open:
                 # gets data for the room in ???
-                data_room = get_data_api(room, self.interval, self.freq)
+                data_room = get_data_api(room, self.freq, ApiAccess.server_time, ApiAccess.server_time + self.interval)
 
                 if self.length_of_windows_opened(data_room) > self.cap:
                     return False

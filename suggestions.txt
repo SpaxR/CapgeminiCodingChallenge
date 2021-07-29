@@ -1,1 +1,1 @@
-Optimal room distribution:4People in room:A,     4People in room:G,     4People in room:H,     4People in room:J,     1People in room:K,     Turn off either the heater or close the windows in room:A,     Turn off either the heater or close the windows in room:X,     
+Optimal room distribution:Turn off either the heater or close the windows in room:A,     Turn off either the heater or close the windows in room:X,     
