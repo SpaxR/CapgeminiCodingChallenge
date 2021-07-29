@@ -38,13 +38,13 @@ class OpenWindowsNecessary(Rule.Rule):
 
                 if self.length_of_windows_opened(data_room) > self.cap:
                     return False
-
+        print("YAY! Nur Stoßgelüftet")
         return True
 
     # override
     def path_to_opt(self, rooms, building):
 
-        result = ""
+        result = " "
         # find rooms with currently opened windows and
         # then get their last two hours of data in 5min intervals
         for room in rooms:
@@ -54,6 +54,6 @@ class OpenWindowsNecessary(Rule.Rule):
                                                                  ApiAccess.server_time, self.freq)
 
                 if self.length_of_windows_opened(data_room) > 20:
-                    result += "Close the windows in room: " + str(room.id) + "     "
+                    result += "Close the windows in room: " + str(room.id) + "  "
 
         return result

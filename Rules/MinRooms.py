@@ -19,7 +19,9 @@ class MinRooms(Rule.Rule):
             room_capacities[room.id] = room.workplace_reservations
 
         num_employees = building.total_employees_in
+        if not num_employees:
 
+            return  "No employees in the office to allocate!"
         # sort room's id by descending capacity
         sorted_ids = sorted(room_capacities,
                             key=room_capacities.__getitem__,
@@ -31,11 +33,11 @@ class MinRooms(Rule.Rule):
         k = 0
         while i < num_employees and k < len(sorted_ids):
             if (num_employees - i) <= room_capacities[sorted_ids[k]]:
-                result += str((num_employees - i)) + "People in room:" + str(sorted_ids[k]) + ","+ "  "
+                result += str((num_employees - i)) + "People in room:" + str(sorted_ids[k]) + ", "
                 i += (num_employees - i)
             else:
                 i += room_capacities[sorted_ids[k]]
-                result += str(room_capacities[sorted_ids[k]]) + "People in room:" + str(sorted_ids[k]) + ","+ "     "
+                result += str(room_capacities[sorted_ids[k]]) + "People in room:" + str(sorted_ids[k]) + ", "
 
             k += 1
 

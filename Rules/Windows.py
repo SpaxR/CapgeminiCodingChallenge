@@ -21,17 +21,18 @@ class Windows(Rule.Rule):
 
     # override
     def path_to_opt(self, rooms, building):
-        result = " "
+        result = "Heater, aircon, windows:"
         for room in rooms:
             if room.sensors.windows_open and room.sensors.air_conditioning_running and room.sensors.heater_running:
 
                 result += "Turn off 2 of the following in room:" + str(room.id) + "Heater, air conditioning or windows!"
 
             elif room.sensors.windows_open and room.sensors.heater_running:
-                result += "Turn off either the heater or close the windows in room:" + str(room.id)+ ",  "
+                result += "Turn off either the heater or close the windows in room:" + str(room.id) + ",  "
             elif room.sensors.windows_open and room.sensors.air_conditioning_running:
-                result += "Turn off either the air conditioning or close the windows in room:" + str(room.id)+ ", "
+                result += "Turn off either the air conditioning or close the windows in room:" + str(room.id) + ", "
             elif room.sensors.air_conditioning_running and room.sensors.heater_running:
-                result += "Turn off either the air conditioning or the heater in room:" + str(room.id)+ ", "
-
+                result += "Turn off either the air conditioning or the heater in room:" + str(room.id) + ", "
+        if result == "Heater, aircon, windows:":
+            result = "No two of the heater air conditioning or opened windows at a time! Good job!"
         return result
