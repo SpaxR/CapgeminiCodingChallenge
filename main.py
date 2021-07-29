@@ -3,16 +3,16 @@ import time
 
 
 from Api.ApiAccess import ApiAccess
-# from Rules.OpenWindowsNecessary import OpenWindowsNecessary
+from Rules.OpenWindowsNecessary import OpenWindowsNecessary
 from Rules.MinRooms import MinRooms
 from Rules.Windows import Windows
 
 
 def output_to_console(lines):
-    if os.name in ('nt', 'dos'):
-        os.system('cls')
-    else:
-        os.system('clear')
+    # if os.name in ('nt', 'dos'):
+    #     os.system('cls')
+    # else:
+    #     os.system('clear')
     for line in lines:
         print(line)
     pass
@@ -21,7 +21,7 @@ def output_to_console(lines):
 ruleset = [
     MinRooms(),
     Windows(),
-    # OpenWindowsNecessary()
+    OpenWindowsNecessary()
 ]
 
 while True:
@@ -42,4 +42,3 @@ while True:
     f.close()
     time.sleep(5) # Refresh every 5 seconds
     pass
-

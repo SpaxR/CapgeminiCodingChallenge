@@ -1,13 +1,9 @@
 import Rule
 from Api.ApiAccess import ApiAccess
-import Api.RoomSensor
-import Api.RoomData
-import Api.BuildingData
 
 
 # Do not open windows more than 20 min in 2 hours
-class OpenWindowsNecessary(Rule):
-
+class OpenWindowsNecessary(Rule.Rule):
     # how often should measurements be taken in minutes
     freq = 5
 
@@ -37,7 +33,8 @@ class OpenWindowsNecessary(Rule):
         for room in rooms:
             if room.sensors.windows_open:
                 # gets data for the room in ???
-                data_room = get_data_api(room, self.freq, ApiAccess.server_time, ApiAccess.server_time + self.interval)
+                data_room = ApiAccess.request_specific_room_data(room.id, ApiAccess.server_time - self.interval,
+                                                                 ApiAccess.server_time, self.freq)
 
                 if self.length_of_windows_opened(data_room) > self.cap:
                     return False
@@ -53,10 +50,10 @@ class OpenWindowsNecessary(Rule):
         for room in rooms:
             if room.sensors.windows_open:
                 # gets data for the room of the last two hours in 5min intervals
-                data_room = get_data_api(room.id, self.interval, self.freq)
+                data_room = ApiAccess.request_specific_room_data(room.id, ApiAccess.server_time - self.interval,
+                                                                 ApiAccess.server_time, self.freq)
 
                 if self.length_of_windows_opened(data_room) > 20:
                     result += "Close the windows in room: " + str(room.id) + "     "
 
         return result
-
