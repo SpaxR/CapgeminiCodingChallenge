@@ -13,7 +13,7 @@ class ApiAccess:
     api_url = "https://rvj6rnbpxj.execute-api.eu-central-1.amazonaws.com/prod/"
 
     # Dirty fix to keep up with Server-Time
-    server_time = time.time()
+    server_time = int(time.time())
 
     @staticmethod
     def request_live_data(interval=1):
